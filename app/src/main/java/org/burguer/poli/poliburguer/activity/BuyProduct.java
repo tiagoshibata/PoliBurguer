@@ -6,8 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -18,13 +18,18 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.burguer.poli.poliburguer.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import models.Product;
 
 public class BuyProduct extends AppCompatActivity {
 
     private static final String TAG = "PoliBurger";
 
-    ArrayAdapter<String> adapter;
+    List<Map<String, String>> listViewData = new ArrayList<>();
     private FirebaseDatabase db;
     private DatabaseReference products;
     private ListView productList;
@@ -33,7 +38,16 @@ public class BuyProduct extends AppCompatActivity {
         public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
             Log.d(TAG, "onChildAdded:" + snapshot.getKey());
             Product product = snapshot.getValue(Product.class);
-            adapter.add(product.getName());
+
+            Map<String, String> data = new HashMap<String, String>(2);
+            data.put("name", product.getName());
+            data.put("description", product.getDescription() + " - " + product.getFormattedPrice());
+            listViewData.add(data);
+
+            SimpleAdapter adapter = new SimpleAdapter(BuyProduct.this, listViewData,
+                    android.R.layout.simple_list_item_2, new String[] {"name", "description"},
+                    new int[] {android.R.id.text1, android.R.id.text2});
+            productList.setAdapter(adapter);
         }
 
         @Override
@@ -81,22 +95,15 @@ public class BuyProduct extends AppCompatActivity {
 
         productList = (ListView)findViewById(R.id.product_list);
         productList.setOnItemClickListener(mProductListClickListener);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_2, android.R.id.text1);
-        productList.setAdapter(adapter);
 
         db = FirebaseDatabase.getInstance();
         products = db.getReference("products");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         products.addChildEventListener(productListener);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         products.removeEventListener(productListener);
     }
 

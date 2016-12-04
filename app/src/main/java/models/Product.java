@@ -23,4 +23,12 @@ public class Product {
         return name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getFormattedPrice() {
+        return "R$" + String.valueOf(price / 100) + "," + String.valueOf(price % 100);
+    }
+
 }
