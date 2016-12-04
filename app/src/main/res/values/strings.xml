@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PoliBurguer</string>
+    <string name="password_mismatch">Senhas digitadas são diferentes!</string>
+    <string name="auth_failed">Autenticação falhou!</string>
+    <string name="account_creation_failed">Criação de conta falhou!</string>
+    <string name="password_too_short">Senha deve possuir pelo menos 6 caracteres</string>
+    <string name="login_success">Usuário logado com sucesso</string>
 </resources>
