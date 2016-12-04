@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:text="Realizar pedido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_order" />
+
+    <Button
+        android:text="Histórico de pedidos "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/order_hiistory" />
+
+    <Button
+        android:text="Preferências"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/preferences" />
+
+    <TextView
+        android:text="Pedidos pendentes:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pending_orders_header" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pending_orders" />
+
+</LinearLayout>
