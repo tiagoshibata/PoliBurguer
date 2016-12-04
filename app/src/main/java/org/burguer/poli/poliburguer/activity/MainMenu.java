@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -13,10 +16,19 @@ import org.burguer.poli.poliburguer.R;
 
 public class MainMenu extends AppCompatActivity {
 
+    private OnClickListener mNewOrderClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(MainMenu.this, BuyProduct.class));
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
+        Button newOrder = (Button)findViewById(R.id.new_order);
+        newOrder.setOnClickListener(mNewOrderClickListener);
     }
 
     @Override

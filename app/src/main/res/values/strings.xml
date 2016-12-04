@@ -7,4 +7,5 @@
     <string name="login_success">Usuário logado com sucesso</string>
     <string name="logout">Sair</string>
     <string name="configure_cc">Configurar cartão</string>
+    <string name="db_read_failed">Reading from database failed!</string>
 </resources>

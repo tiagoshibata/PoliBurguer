@@ -24,9 +24,22 @@ public class Login extends AppCompatActivity {
     private static final String TAG = "PoliBurger";
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText mEmail;
     private EditText mPassword;
+
+
+    private FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth auth) {
+            FirebaseUser user = auth.getCurrentUser();
+            if (user != null) {
+                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                startActivity(new Intent(Login.this, MainMenu.class));
+            } else {
+                Log.d(TAG, "onAuthStateChanged:signed_out");
+            }
+        }
+    };
 
     private boolean validatePassword(String pass) {
         if (pass.length() < 6) {
@@ -102,18 +115,6 @@ public class Login extends AppCompatActivity {
         mPassword = (EditText)findViewById(R.id.password);
 
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth auth) {
-                FirebaseUser user = auth.getCurrentUser();
-                if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    startActivity(new Intent(Login.this, MainMenu.class));
-                } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
     }
 
     @Override
@@ -125,9 +126,7 @@ public class Login extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
+        mAuth.removeAuthStateListener(mAuthListener);
     }
 
 }
