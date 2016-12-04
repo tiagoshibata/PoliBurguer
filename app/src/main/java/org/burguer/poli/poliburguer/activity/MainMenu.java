@@ -9,8 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserInfo;
 
 import org.burguer.poli.poliburguer.R;
 
@@ -23,12 +25,30 @@ public class MainMenu extends AppCompatActivity {
         }
     };
 
+    private boolean isAdmin() {
+        UserInfo user = FirebaseAuth.getInstance().getCurrentUser();
+        return user != null && user.getEmail().equals("admin@gmail.com");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
+
         Button newOrder = (Button)findViewById(R.id.new_order);
         newOrder.setOnClickListener(mNewOrderClickListener);
+
+        if (isAdmin()) {
+            Button addProduct = (Button)findViewById(R.id.add_product);
+            addProduct.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainMenu.this, AddProduct.class));
+                }
+            });
+        } else {
+            findViewById(R.id.admin_layout).setVisibility(LinearLayout.GONE);
+        }
     }
 
     @Override

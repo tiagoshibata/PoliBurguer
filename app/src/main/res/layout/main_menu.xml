@@ -15,6 +15,26 @@
         android:layout_height="wrap_content"
         android:id="@+id/order_hiistory" />
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/admin_layout">
+
+        <TextView
+            android:text="Tarefas administrativas:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_view_admin" />
+
+        <Button
+            android:text="Adicionar produto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_product" />
+
+    </LinearLayout>
+
     <TextView
         android:text="Pedidos pendentes:"
         android:layout_width="match_parent"
