@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.burguer.poli.poliburguer.R;
 
@@ -27,17 +26,20 @@ public class Login extends AppCompatActivity {
     private EditText mEmail;
     private EditText mPassword;
 
+    private boolean startIfLoginSuccessful(FirebaseAuth auth) {
+        boolean success = auth.getCurrentUser() != null;
+        if (success) {
+            finish();
+            startActivity(new Intent(Login.this, MainMenu.class));
+        }
+        return success;
+    }
+
 
     private FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
         @Override
         public void onAuthStateChanged(@NonNull FirebaseAuth auth) {
-            FirebaseUser user = auth.getCurrentUser();
-            if (user != null) {
-                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                startActivity(new Intent(Login.this, MainMenu.class));
-            } else {
-                Log.d(TAG, "onAuthStateChanged:signed_out");
-            }
+            startIfLoginSuccessful(auth);
         }
     };
 
@@ -103,18 +105,20 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
-
-        Button login = (Button)findViewById(R.id.loginButton);
-        login.setOnClickListener(mLoginClickListener);
-
-        Button createAccount = (Button)findViewById(R.id.createAccount);
-        createAccount.setOnClickListener(mCreateAccountClickListener);
-
-        mEmail = (EditText)findViewById(R.id.email);
-        mPassword = (EditText)findViewById(R.id.password);
 
         mAuth = FirebaseAuth.getInstance();
+        if (!startIfLoginSuccessful(mAuth)) {
+            setContentView(R.layout.login);
+
+            Button login = (Button)findViewById(R.id.loginButton);
+            login.setOnClickListener(mLoginClickListener);
+
+            Button createAccount = (Button)findViewById(R.id.createAccount);
+            createAccount.setOnClickListener(mCreateAccountClickListener);
+
+            mEmail = (EditText)findViewById(R.id.email);
+            mPassword = (EditText)findViewById(R.id.password);
+        }
     }
 
     @Override
