@@ -20,6 +20,7 @@ import org.burguer.poli.poliburguer.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,31 +37,35 @@ public class BuyProduct extends AppCompatActivity {
     private ChildEventListener productListener = new ChildEventListener() {
         @Override
         public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
-            Log.d(TAG, "onChildAdded:" + snapshot.getKey());
-            Product product = snapshot.getValue(Product.class);
-
-            Map<String, String> data = new HashMap<String, String>(2);
-            data.put("name", product.getName());
-            data.put("description", product.getDescription() + " - " + product.getFormattedPrice());
-            listViewData.add(data);
-
-            SimpleAdapter adapter = new SimpleAdapter(BuyProduct.this, listViewData,
-                    android.R.layout.simple_list_item_2, new String[] {"name", "description"},
-                    new int[] {android.R.id.text1, android.R.id.text2});
-            productList.setAdapter(adapter);
+            listViewData.add(snapshotToMap(snapshot));
+            updateView();
         }
 
         @Override
         public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
             String key = snapshot.getKey();
-            Product product = snapshot.getValue(Product.class);
-            Log.d(TAG, "onChildChanged:" + key);
+            for (Map<String, String> m : listViewData) {
+                if (m.get("key").equals(key)) {
+                    m.putAll(snapshotToMap(snapshot));
+                    updateView();
+                    return;
+                }
+            }
+            throw new RuntimeException("Changing nonexistent id");
         }
 
         @Override
         public void onChildRemoved(DataSnapshot snapshot) {
             String key = snapshot.getKey();
-            Log.d(TAG, "onChildRemoved:" + key);
+            for (Iterator<Map<String, String>> i = listViewData.listIterator(); i.hasNext(); ) {
+                Map<String, String> m = i.next();
+                if (m.get("key").equals(key)) {
+                    i.remove();
+                    updateView();
+                    return;
+                }
+            }
+            throw new RuntimeException("Removing nonexistent id");
         }
 
         @Override
@@ -75,6 +80,22 @@ public class BuyProduct extends AppCompatActivity {
             Log.w(TAG, "Failed to read database:", error.toException());
         }
     };
+
+    private void updateView() {
+        SimpleAdapter adapter = new SimpleAdapter(BuyProduct.this, listViewData,
+                android.R.layout.simple_list_item_2, new String[] {"name", "description"},
+                new int[] {android.R.id.text1, android.R.id.text2});
+        productList.setAdapter(adapter);
+    }
+
+    private Map<String, String> snapshotToMap(DataSnapshot snapshot) {
+        Product product = snapshot.getValue(Product.class);
+        Map<String, String> data = new HashMap<>(3);
+        data.put("name", product.getName());
+        data.put("description", product.getDescription() + " - " + product.getFormattedPrice());
+        data.put("key", snapshot.getKey());
+        return data;
+    }
 
     private OnItemClickListener mProductListClickListener = new OnItemClickListener() {
         @Override
