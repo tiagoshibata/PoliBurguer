@@ -5,4 +5,6 @@
     <string name="account_creation_failed">Criação de conta falhou!</string>
     <string name="password_too_short">Senha deve possuir pelo menos 6 caracteres</string>
     <string name="login_success">Usuário logado com sucesso</string>
+    <string name="logout">Sair</string>
+    <string name="configure_cc">Configurar cartão</string>
 </resources>

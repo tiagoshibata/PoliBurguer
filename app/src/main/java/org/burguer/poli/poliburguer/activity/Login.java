@@ -1,5 +1,6 @@
 package org.burguer.poli.poliburguer.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,8 +49,6 @@ public class Login extends AppCompatActivity {
                     .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-
                             if (!task.isSuccessful()) {
                                 Log.w(TAG, "signInWithEmail:failed", task.getException());
                                 Toast.makeText(Login.this, R.string.auth_failed,
@@ -77,11 +76,11 @@ public class Login extends AppCompatActivity {
                     .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
-                            if (!task.isSuccessful())
+                            if (!task.isSuccessful()) {
+                                Log.w(TAG, "createUserWithEmail:failed");
                                 Toast.makeText(Login.this, R.string.account_creation_failed,
                                         Toast.LENGTH_LONG).show();
+                            }
                         }
                     });
         }
@@ -108,8 +107,8 @@ public class Login extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth auth) {
                 FirebaseUser user = auth.getCurrentUser();
                 if (user != null) {
-                    Toast.makeText(Login.this, R.string.login_success, Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    startActivity(new Intent(Login.this, MainMenu.class));
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }

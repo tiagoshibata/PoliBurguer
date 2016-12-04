@@ -15,12 +15,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/order_hiistory" />
 
-    <Button
-        android:text="Preferências"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/preferences" />
-
     <TextView
         android:text="Pedidos pendentes:"
         android:layout_width="match_parent"
