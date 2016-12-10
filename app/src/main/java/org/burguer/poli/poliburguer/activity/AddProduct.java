@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.burguer.poli.poliburguer.R;
 
-import models.Product;
+import org.burguer.poli.poliburguer.models.Product;
 
 public class AddProduct extends AppCompatActivity {
 

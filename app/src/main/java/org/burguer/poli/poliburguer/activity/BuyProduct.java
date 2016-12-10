@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import models.Product;
+import org.burguer.poli.poliburguer.models.Product;
 
 public class BuyProduct extends AppCompatActivity {
 

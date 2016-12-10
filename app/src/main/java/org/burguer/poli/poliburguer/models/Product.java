@@ -1,4 +1,4 @@
-package models;
+package org.burguer.poli.poliburguer.models;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
