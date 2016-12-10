@@ -3,6 +3,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent" android:label="">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/buy_product_search"
+        android:hint="Busca" />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

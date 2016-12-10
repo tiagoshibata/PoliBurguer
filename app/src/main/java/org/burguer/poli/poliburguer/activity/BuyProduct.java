@@ -3,6 +3,8 @@ package org.burguer.poli.poliburguer.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -35,11 +38,13 @@ public class BuyProduct extends AppCompatActivity {
     private FirebaseDatabase db;
     private DatabaseReference products;
     private ListView productListView;
+    private EditText buySearch;
+    private ProductAdapter adapter;
 
     private ChildEventListener productListener = new ListChildEventListener<Product>(Product.class, productList) {
         @Override
         public void onUpdate() {
-            productListView.setAdapter(new ProductAdapter(BuyProduct.this, productList));
+            adapter.notifyDataSetChanged();
         }
 
         @Override
@@ -81,8 +86,24 @@ public class BuyProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.buy_product);
 
+        adapter = new ProductAdapter(BuyProduct.this, productList);
         productListView = (ListView)findViewById(R.id.product_list);
         productListView.setOnItemClickListener(mProductListClickListener);
+        productListView.setAdapter(adapter);
+
+        buySearch = (EditText)findViewById(R.id.buy_product_search);
+        buySearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                adapter.getFilter().filter(s);
+            }
+        });
 
         db = FirebaseDatabase.getInstance();
         products = db.getReference("products");
