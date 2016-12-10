@@ -25,6 +25,13 @@ public class MainMenu extends AppCompatActivity {
         }
     };
 
+    private OnClickListener mOrderHistoryClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(MainMenu.this, OrderHistory.class));
+        }
+    };
+
     private boolean isAdmin() {
         UserInfo user = FirebaseAuth.getInstance().getCurrentUser();
         return user != null && user.getEmail().equals("admin@gmail.com");
@@ -37,6 +44,9 @@ public class MainMenu extends AppCompatActivity {
 
         Button newOrder = (Button)findViewById(R.id.new_order);
         newOrder.setOnClickListener(mNewOrderClickListener);
+
+        Button orderHistory = (Button)findViewById(R.id.order_history);
+        orderHistory.setOnClickListener(mOrderHistoryClickListener);
 
         if (isAdmin()) {
             Button addProduct = (Button)findViewById(R.id.add_product);

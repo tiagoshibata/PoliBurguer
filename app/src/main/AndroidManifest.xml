@@ -11,6 +11,7 @@
         <activity android:name=".activity.AddProduct" />
         <activity android:name=".activity.RemoveProduct" />
         <activity android:name=".activity.BuyProduct" />
+        <activity android:name=".activity.OrderHistory" />
         <activity android:name=".activity.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
