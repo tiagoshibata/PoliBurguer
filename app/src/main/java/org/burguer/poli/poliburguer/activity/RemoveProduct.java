@@ -63,6 +63,7 @@ public class RemoveProduct extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
             Log.i(TAG, "ID: " + listViewData.get(position).get("key"));
+            products.child(listViewData.get(position).get("key")).removeValue();
         }
     };
 

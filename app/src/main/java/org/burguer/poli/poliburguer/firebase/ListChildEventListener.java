@@ -21,7 +21,7 @@ public abstract class ListChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
-        list.add(snapshotToMap(snapshot));
+        list.add(toMap(snapshot));
         onUpdate();
     }
 
@@ -30,7 +30,7 @@ public abstract class ListChildEventListener implements ChildEventListener {
         String key = snapshot.getKey();
         for (Map<String, String> m : list) {
             if (m.get("key").equals(key)) {
-                m.putAll(snapshotToMap(snapshot));
+                m.putAll(toMap(snapshot));
                 onUpdate();
                 return;
             }

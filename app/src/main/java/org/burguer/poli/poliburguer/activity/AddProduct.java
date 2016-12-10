@@ -2,12 +2,14 @@ package org.burguer.poli.poliburguer.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -34,8 +36,17 @@ public class AddProduct extends AppCompatActivity {
                     Integer.parseInt(store.getText().toString()),
                     Math.round(100 * Float.parseFloat(price.getText().toString())));
             DatabaseReference ref = products.push();
-            ref.setValue(product);
-            Toast.makeText(AddProduct.this, R.string.product_add_success, Toast.LENGTH_LONG).show();
+            ref.setValue(product, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError error, DatabaseReference ref) {
+                    if (error == null) {
+                        Toast.makeText(AddProduct.this, R.string.product_add_success, Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    Toast.makeText(AddProduct.this, R.string.product_add_failed, Toast.LENGTH_LONG).show();
+                    Log.e(TAG, error.toString());
+                }
+            });
         }
     };
 
