@@ -27,6 +27,7 @@ public class AddProduct extends AppCompatActivity {
     private EditText description;
     private EditText store;
     private EditText price;
+    private Button addButton;
 
     private OnClickListener mAddClickListener = new OnClickListener() {
         @Override
@@ -35,16 +36,18 @@ public class AddProduct extends AppCompatActivity {
                     description.getText().toString(),
                     Integer.parseInt(store.getText().toString()),
                     Math.round(100 * Float.parseFloat(price.getText().toString())));
+            addButton.setEnabled(false);
             DatabaseReference ref = products.push();
             ref.setValue(product, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(DatabaseError error, DatabaseReference ref) {
-                    if (error == null) {
-                        Toast.makeText(AddProduct.this, R.string.product_add_success, Toast.LENGTH_LONG).show();
+                    addButton.setEnabled(true);
+                    if (error != null) {
+                        Toast.makeText(AddProduct.this, R.string.product_add_failed, Toast.LENGTH_LONG).show();
+                        Log.e(TAG, error.toString());
                         return;
                     }
-                    Toast.makeText(AddProduct.this, R.string.product_add_failed, Toast.LENGTH_LONG).show();
-                    Log.e(TAG, error.toString());
+                    Toast.makeText(AddProduct.this, R.string.product_add_success, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -55,7 +58,7 @@ public class AddProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_product);
 
-        Button addButton = (Button)findViewById(R.id.new_product_add);
+        addButton = (Button)findViewById(R.id.new_product_add);
         addButton.setOnClickListener(mAddClickListener);
 
         name = (EditText)findViewById(R.id.new_product_name);

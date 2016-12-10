@@ -8,11 +8,6 @@ Ele permitirá ao usuário comprar comida de uma lanchonete pelo celular e receb
 
 Features básicas:
 
-* Login de usuário
 * Fazer pedidos
 * Ver status de pedidos
 * Notificação de pedido pronto
-
-Outras:
-
-* Cobrar do cartão do usuário
