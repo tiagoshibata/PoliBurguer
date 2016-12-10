@@ -33,6 +33,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/add_product" />
 
+        <Button
+            android:text="Remover produtos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/remove_product" />
+
     </LinearLayout>
 
     <TextView

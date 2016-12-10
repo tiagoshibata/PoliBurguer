@@ -8,4 +8,5 @@
     <string name="logout">Sair</string>
     <string name="configure_cc">Configurar cartão</string>
     <string name="db_read_failed">Reading from database failed!</string>
+    <string name="product_add_success">Produto adicionado com sucesso</string>
 </resources>

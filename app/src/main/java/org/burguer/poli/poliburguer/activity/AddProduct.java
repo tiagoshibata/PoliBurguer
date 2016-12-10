@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,9 +32,10 @@ public class AddProduct extends AppCompatActivity {
             Product product = new Product(name.getText().toString(),
                     description.getText().toString(),
                     Integer.parseInt(store.getText().toString()),
-                    Integer.parseInt(price.getText().toString()));
+                    Float.parseFloat(price.getText().toString()));
             DatabaseReference ref = products.push();
             ref.setValue(product);
+            Toast.makeText(AddProduct.this, R.string.product_add_success, Toast.LENGTH_LONG).show();
         }
     };
 

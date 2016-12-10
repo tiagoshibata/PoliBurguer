@@ -46,6 +46,13 @@ public class MainMenu extends AppCompatActivity {
                     startActivity(new Intent(MainMenu.this, AddProduct.class));
                 }
             });
+            Button removeProduct = (Button)findViewById(R.id.remove_product);
+            removeProduct.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainMenu.this, RemoveProduct.class));
+                }
+            });
         } else {
             findViewById(R.id.admin_layout).setVisibility(LinearLayout.GONE);
         }

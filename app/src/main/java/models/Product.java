@@ -8,11 +8,11 @@ public class Product {
     public String name;
     public String description;
     public int store;
-    public int price;
+    public float price;
 
     public Product() {}
 
-    public Product(String name, String description, int store, int price) {
+    public Product(String name, String description, int store, float price) {
         this.name = name;
         this.description = description;
         this.store  = store;
@@ -28,7 +28,7 @@ public class Product {
     }
 
     public String getFormattedPrice() {
-        return "R$" + String.valueOf(price / 100) + "," + String.valueOf(price % 100);
+        return "R$" + String.format("%.2f", price);
     }
 
 }

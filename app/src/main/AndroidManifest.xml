@@ -9,6 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.AddProduct" />
+        <activity android:name=".activity.RemoveProduct" />
         <activity android:name=".activity.BuyProduct" />
         <activity android:name=".activity.Login">
             <intent-filter>
