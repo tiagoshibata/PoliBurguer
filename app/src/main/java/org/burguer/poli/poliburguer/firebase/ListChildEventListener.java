@@ -5,32 +5,36 @@ import android.util.Log;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 
+import org.burguer.poli.poliburguer.models.FirebaseModel;
+
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.ListIterator;
 
-public abstract class ListChildEventListener implements ChildEventListener {
-    private List<Map<String, String>> list;
+public abstract class ListChildEventListener<T> implements ChildEventListener {
+    private final Class<T> type;
+    private List<T> list;
 
     public abstract void onUpdate();
-    public abstract Map<String, String> snapshotToMap(DataSnapshot snapshot);
 
-    public ListChildEventListener(List<Map<String, String>> list) {
+    public ListChildEventListener(Class<T> type, List<T> list) {
+        this.type = type;
         this.list = list;
     }
 
     @Override
     public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
-        list.add(toMap(snapshot));
+        list.add(toModel(snapshot));
         onUpdate();
     }
 
     @Override
     public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
         String key = snapshot.getKey();
-        for (Map<String, String> m : list) {
-            if (m.get("key").equals(key)) {
-                m.putAll(toMap(snapshot));
+        for (ListIterator<T> i = list.listIterator(); i.hasNext(); ) {
+            FirebaseModel item = (FirebaseModel)i.next();
+            if (item.getKey().equals(key)) {
+                i.set(toModel(snapshot));
                 onUpdate();
                 return;
             }
@@ -41,9 +45,9 @@ public abstract class ListChildEventListener implements ChildEventListener {
     @Override
     public void onChildRemoved(DataSnapshot snapshot) {
         String key = snapshot.getKey();
-        for (Iterator<Map<String, String>> i = list.listIterator(); i.hasNext(); ) {
-            Map<String, String> m = i.next();
-            if (m.get("key").equals(key)) {
+        for (Iterator<T> i = list.listIterator(); i.hasNext(); ) {
+            FirebaseModel item = (FirebaseModel)i.next();
+            if (item.getKey().equals(key)) {
                 i.remove();
                 onUpdate();
                 return;
@@ -58,9 +62,9 @@ public abstract class ListChildEventListener implements ChildEventListener {
         Log.d("PoliBurguer", "onChildMoved ignored: key = " + key);
     }
 
-    private Map<String, String> toMap(DataSnapshot snapshot) {
-        Map<String, String> map = snapshotToMap(snapshot);
-        map.put("key", snapshot.getKey());
-        return map;
+    private T toModel(DataSnapshot snapshot) {
+        FirebaseModel model = (FirebaseModel)snapshot.getValue(type);
+        model.setKey(snapshot.getKey());
+        return (T)model;
     }
 }

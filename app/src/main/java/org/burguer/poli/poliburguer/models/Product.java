@@ -4,12 +4,13 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
-public class Product {
+public class Product implements FirebaseModel {
 
     public String name;
     public String description;
     public int store;
     public int price;
+    private String key;
 
     public Product() {}
 
@@ -26,6 +27,17 @@ public class Product {
 
     public String getDescription() {
         return description;
+    }
+
+    @Exclude
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public void setKey(String key) {
+        this.key = key;
     }
 
     @Exclude

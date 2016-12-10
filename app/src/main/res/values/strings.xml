@@ -7,7 +7,8 @@
     <string name="login_success">Usuário logado com sucesso</string>
     <string name="logout">Sair</string>
     <string name="configure_cc">Configurar cartão</string>
-    <string name="db_read_failed">Reading from database failed!</string>
+    <string name="db_read_failed">Leitura do BD falhou!</string>
     <string name="product_add_success">Produto adicionado com sucesso</string>
     <string name="product_add_failed">Falha ao adicionar produto</string>
+    <string name="buy_order">Comprar carrinho</string>
 </resources>

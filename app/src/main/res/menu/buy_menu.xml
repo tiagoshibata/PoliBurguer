@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_buy_order"
+        android:title="@string/buy_order"
+        android:icon="@drawable/ic_shopping_basket_white_24dp"
+        app:showAsAction="ifRoom"/>
+</menu>
