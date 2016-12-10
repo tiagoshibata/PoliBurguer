@@ -32,7 +32,7 @@ public class AddProduct extends AppCompatActivity {
             Product product = new Product(name.getText().toString(),
                     description.getText().toString(),
                     Integer.parseInt(store.getText().toString()),
-                    Float.parseFloat(price.getText().toString()));
+                    Math.round(100 * Float.parseFloat(price.getText().toString())));
             DatabaseReference ref = products.push();
             ref.setValue(product);
             Toast.makeText(AddProduct.this, R.string.product_add_success, Toast.LENGTH_LONG).show();

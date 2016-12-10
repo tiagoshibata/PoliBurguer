@@ -1,5 +1,6 @@
 package models;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
@@ -8,11 +9,11 @@ public class Product {
     public String name;
     public String description;
     public int store;
-    public float price;
+    public int price;
 
     public Product() {}
 
-    public Product(String name, String description, int store, float price) {
+    public Product(String name, String description, int store, int price) {
         this.name = name;
         this.description = description;
         this.store  = store;
@@ -27,8 +28,9 @@ public class Product {
         return description;
     }
 
+    @Exclude
     public String getFormattedPrice() {
-        return "R$" + String.format("%.2f", price);
+        return "R$" + String.valueOf(price / 100) + "," + String.valueOf(price % 100);
     }
 
 }
