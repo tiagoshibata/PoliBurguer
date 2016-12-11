@@ -28,17 +28,15 @@ import java.util.List;
 
 import org.burguer.poli.poliburguer.firebase.ListChildEventListener;
 import org.burguer.poli.poliburguer.models.Product;
+import org.burguer.poli.poliburguer.parcel.ProductParcel;
 
 public class BuyProduct extends AppCompatActivity {
 
     private static final String TAG = "PoliBurger";
 
     List<Product> productList = new ArrayList<>();
-    List<Product> order = new ArrayList<>();
-    private FirebaseDatabase db;
+    ArrayList<ProductParcel> order;
     private DatabaseReference products;
-    private ListView productListView;
-    private EditText buySearch;
     private ProductAdapter adapter;
 
     private ChildEventListener productListener = new ListChildEventListener<Product>(Product.class, productList) {
@@ -56,11 +54,15 @@ public class BuyProduct extends AppCompatActivity {
 
     private OnItemClickListener mProductListClickListener = new OnItemClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-            order.add(productList.get(position));
-            setTitle("Carrinho - " + order.size() + " itens");
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            order.add(new ProductParcel(productList.get(position)));
+            updateTitle();
         }
     };
+
+    private void updateTitle() {
+        setTitle("Carrinho - " + order.size() + " itens");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,7 +75,10 @@ public class BuyProduct extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_buy_order:
-                startActivity(new Intent(BuyProduct.this, Login.class));
+                Intent intent = new Intent(this, Checkout.class);
+                intent.putExtra("order", order);
+                finish();
+                startActivity(intent);
                 return true;
 
             default:
@@ -86,12 +91,18 @@ public class BuyProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.buy_product);
 
+        order = getIntent().getParcelableArrayListExtra("order");
+        if (order == null) {
+            order = new ArrayList<>();
+        }
+        updateTitle();
+
         adapter = new ProductAdapter(BuyProduct.this, productList);
-        productListView = (ListView)findViewById(R.id.product_list);
+        ListView productListView = (ListView)findViewById(R.id.product_list);
         productListView.setOnItemClickListener(mProductListClickListener);
         productListView.setAdapter(adapter);
 
-        buySearch = (EditText)findViewById(R.id.buy_product_search);
+        EditText buySearch = (EditText)findViewById(R.id.buy_product_search);
         buySearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -105,7 +116,7 @@ public class BuyProduct extends AppCompatActivity {
             }
         });
 
-        db = FirebaseDatabase.getInstance();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
         products = db.getReference("products");
         products.addChildEventListener(productListener);
     }

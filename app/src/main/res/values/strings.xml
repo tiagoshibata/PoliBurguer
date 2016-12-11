@@ -34,4 +34,7 @@
     <string name="admin_tasks">Tarefas administrativas</string>
     <string name="remove_products">Remover produtos</string>
     <string name="pending_orders">Pedidos pendentes</string>
+    <string name="confirm_checkout">Confirmar compra</string>
+    <string name="checkout_failed">Comunicação com BD falhou!</string>
+    <string name="checkout_empty">Carrinho está vazio!</string>
 </resources>

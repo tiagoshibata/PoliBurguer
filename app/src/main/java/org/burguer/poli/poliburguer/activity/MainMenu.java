@@ -3,6 +3,7 @@ package org.burguer.poli.poliburguer.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,14 +11,41 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.burguer.poli.poliburguer.R;
+import org.burguer.poli.poliburguer.firebase.ListChildEventListener;
+import org.burguer.poli.poliburguer.models.Order;
+
+import java.util.ArrayList;
 
 public class MainMenu extends AppCompatActivity {
+
+    private static final String TAG = "PoliBurger";
+    private ArrayList<Order> orderList = new ArrayList<>();
+    private OrderAdapter adapter;
+    private DatabaseReference orders;
+
+    private ChildEventListener orderListener = new ListChildEventListener<Order>(Order.class, orderList) {
+        @Override
+        public void onUpdate() {
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onCancelled(DatabaseError error) {
+            Toast.makeText(MainMenu.this, R.string.db_read_failed, Toast.LENGTH_LONG).show();
+            Log.w(TAG, "Failed to read database:", error.toException());
+        }
+    };
 
     private OnClickListener mNewOrderClickListener = new OnClickListener() {
         @Override
@@ -49,6 +77,10 @@ public class MainMenu extends AppCompatActivity {
         Button orderHistory = (Button)findViewById(R.id.order_history);
         orderHistory.setOnClickListener(mOrderHistoryClickListener);
 
+        adapter = new OrderAdapter(this, orderList);
+        ListView orderList = (ListView)findViewById(R.id.pending_orders);
+        orderList.setAdapter(adapter);
+
         if (isAdmin()) {
             Button addProduct = (Button)findViewById(R.id.add_product);
             addProduct.setOnClickListener(new OnClickListener() {
@@ -67,12 +99,23 @@ public class MainMenu extends AppCompatActivity {
         } else {
             findViewById(R.id.admin_layout).setVisibility(LinearLayout.GONE);
         }
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        orders = db.getReference("/users/" + uid + "/orders");
+        orders.addChildEventListener(orderListener);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        orders.removeEventListener(orderListener);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_bar, menu);
+        inflater.inflate(R.menu.login_menu, menu);
         return true;
     }
 
