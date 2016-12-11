@@ -2,6 +2,7 @@ package org.burguer.poli.poliburguer.models;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public class Order implements FirebaseModel {
     public int price;
     public long timestamp;
     private String key;
+    public String fcm;
 
     public Order() {}
 
@@ -19,6 +21,7 @@ public class Order implements FirebaseModel {
         this.price = price;
         this.products = products;
         this.timestamp = timestamp;
+        this.fcm = FirebaseInstanceId.getInstance().getToken();
     }
 
     public ArrayList<String> getProducts() {
@@ -40,6 +43,8 @@ public class Order implements FirebaseModel {
     public long getTimestamp() {
         return timestamp;
     }
+
+    public String getFcm() { return fcm; }
 
     @Exclude
     public String getFormattedPrice() {
