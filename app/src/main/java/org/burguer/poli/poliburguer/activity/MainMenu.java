@@ -3,12 +3,15 @@ package org.burguer.poli.poliburguer.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.burguer.poli.poliburguer.R;
 import org.burguer.poli.poliburguer.firebase.ListChildEventListener;
 import org.burguer.poli.poliburguer.models.Order;
+import org.burguer.poli.poliburguer.parcel.OrderParcel;
 
 import java.util.ArrayList;
 
@@ -33,6 +37,7 @@ public class MainMenu extends AppCompatActivity {
     private ArrayList<Order> orderList = new ArrayList<>();
     private OrderAdapter adapter;
     private DatabaseReference orders;
+    private FirebaseDatabase db;
 
     private ChildEventListener orderListener = new ListChildEventListener<Order>(Order.class, orderList) {
         @Override
@@ -61,6 +66,20 @@ public class MainMenu extends AppCompatActivity {
         }
     };
 
+    private OnItemClickListener mOrderListClickListener = new OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            DialogFragment fragment = new OrderDetailsDialog();
+            Bundle args = new Bundle();
+            final Order order = orderList.get(position);
+            args.putParcelable("order", new OrderParcel(order));
+            fragment.setArguments(args);
+            fragment.show(getSupportFragmentManager(), TAG + "OrderDetailsDialog");
+
+
+        }
+    };
+
     private boolean isAdmin() {
         UserInfo user = FirebaseAuth.getInstance().getCurrentUser();
         return user != null && user.getEmail().equals("admin@gmail.com");
@@ -78,8 +97,9 @@ public class MainMenu extends AppCompatActivity {
         orderHistory.setOnClickListener(mOrderHistoryClickListener);
 
         adapter = new OrderAdapter(this, orderList);
-        ListView orderList = (ListView)findViewById(R.id.pending_orders);
-        orderList.setAdapter(adapter);
+        ListView orderListView = (ListView)findViewById(R.id.pending_orders);
+        orderListView.setAdapter(adapter);
+        orderListView.setOnItemClickListener(mOrderListClickListener);
 
         if (isAdmin()) {
             Button addProduct = (Button)findViewById(R.id.add_product);
@@ -100,7 +120,7 @@ public class MainMenu extends AppCompatActivity {
             findViewById(R.id.admin_layout).setVisibility(LinearLayout.GONE);
         }
 
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        db = FirebaseDatabase.getInstance();
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         orders = db.getReference("/users/" + uid + "/orders");
         orders.addChildEventListener(orderListener);

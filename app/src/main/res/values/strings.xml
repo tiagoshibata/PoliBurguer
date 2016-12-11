@@ -35,7 +35,7 @@
     <string name="remove_products">Remover produtos</string>
     <string name="pending_orders">Pedidos pendentes</string>
     <string name="confirm_checkout">Confirmar compra</string>
-    <string name="checkout_failed">Comunicação com BD falhou!</string>
+    <string name="db_communication_failed">Comunicação com BD falhou!</string>
     <string name="checkout_empty">Carrinho está vazio!</string>
     <string name="checkout_success">Compra efetuada</string>
     <string name="cart">Carrinho</string>
@@ -43,5 +43,7 @@
     <string name="lower_items">itens</string>
     <string name="lower_product">produto</string>
     <string name="lower_products">produtos</string>
-
+    <string name="order_details_dialog">Detalhes da compra:</string>
+    <string name="order_ready">Pedido pronto</string>
+    <string name="back">Voltar</string>
 </resources>

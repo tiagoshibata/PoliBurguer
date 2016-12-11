@@ -17,7 +17,7 @@ import org.burguer.poli.poliburguer.activity.Login;
 
 public class NotificationsService extends FirebaseMessagingService {
 
-    private static final String TAG = "MyFirebaseMsgService";
+    private static final String TAG = "PoliBurguer";
 
     /**
      * Called when message is received.

@@ -25,7 +25,6 @@ import org.burguer.poli.poliburguer.models.Product;
 import org.burguer.poli.poliburguer.parcel.ProductParcel;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Checkout extends AppCompatActivity {
 
@@ -96,7 +95,7 @@ public class Checkout extends AppCompatActivity {
                         @Override
                         public void onComplete(DatabaseError error, DatabaseReference ref) {
                             if (error != null) {
-                                Toast.makeText(Checkout.this, R.string.checkout_failed, Toast.LENGTH_LONG).show();
+                                Toast.makeText(Checkout.this, R.string.db_communication_failed, Toast.LENGTH_LONG).show();
                                 Log.e(TAG, error.toString());
                                 menuEnabled = true;
                                 return;
