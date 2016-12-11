@@ -80,11 +80,6 @@ public class MainMenu extends AppCompatActivity {
         }
     };
 
-    private boolean isAdmin() {
-        UserInfo user = FirebaseAuth.getInstance().getCurrentUser();
-        return user != null && user.getEmail().equals("admin@gmail.com");
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +96,7 @@ public class MainMenu extends AppCompatActivity {
         orderListView.setAdapter(adapter);
         orderListView.setOnItemClickListener(mOrderListClickListener);
 
-        if (isAdmin()) {
+        if (Privileges.isAdmin()) {
             Button addProduct = (Button)findViewById(R.id.add_product);
             addProduct.setOnClickListener(new OnClickListener() {
                 @Override

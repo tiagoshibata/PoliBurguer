@@ -71,36 +71,39 @@ public class OrderDetailsDialog extends DialogFragment {
         products = FirebaseDatabase.getInstance().getReference("/products");
         products.addChildEventListener(productListener);
 
-        return builder.setTitle(R.string.order_details_dialog)
+        builder.setTitle(R.string.order_details_dialog)
                 .setView(R.layout.checkout)
-                .setPositiveButton(R.string.order_ready, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        FirebaseDatabase db = FirebaseDatabase.getInstance();
-                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        Map<String, Object> update = new HashMap<>();
-                        DatabaseReference dbUser = db.getReference("users/" + uid);
-
-                        DatabaseReference historyRef = dbUser.child("history").push();
-                        update.put("history/" + historyRef.getKey(), order);
-                        update.put("orders/" + order.getKey(), null);
-                        dbUser.updateChildren(update, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError error, DatabaseReference ref) {
-                                if (error != null) {
-                                    Toast.makeText(activity, R.string.db_communication_failed, Toast.LENGTH_LONG).show();
-                                    Log.e(TAG, error.toString());
-                                    return;
-                                }
-                                dismiss();
-                            }
-                        });
-                    }
-                })
                 .setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dismiss();
                     }
-                }).create();
+                });
+
+        if (Privileges.isAdmin())
+            builder.setPositiveButton(R.string.order_ready, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    FirebaseDatabase db = FirebaseDatabase.getInstance();
+                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    Map<String, Object> update = new HashMap<>();
+                    DatabaseReference dbUser = db.getReference("users/" + uid);
+
+                    DatabaseReference historyRef = dbUser.child("history").push();
+                    update.put("history/" + historyRef.getKey(), order);
+                    update.put("orders/" + order.getKey(), null);
+                    dbUser.updateChildren(update, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError error, DatabaseReference ref) {
+                            if (error != null) {
+                                Toast.makeText(activity, R.string.db_communication_failed, Toast.LENGTH_LONG).show();
+                                Log.e(TAG, error.toString());
+                                return;
+                            }
+                            dismiss();
+                        }
+                    });
+                }
+            });
+        return builder.create();
     }
 
     @Override
