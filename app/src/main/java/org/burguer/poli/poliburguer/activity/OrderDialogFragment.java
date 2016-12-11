@@ -21,12 +21,11 @@ import org.burguer.poli.poliburguer.models.Product;
 import org.burguer.poli.poliburguer.parcel.OrderParcel;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class OrderDialogFragment extends DialogFragment {
 
     private static final String TAG = "PoliBurger";
-    private DatabaseReference products;
+    private DatabaseReference productsRef;
     private ChildEventListener productListener;
     private ProductAdapter productAdapter;
     protected FirebaseDatabase db;
@@ -43,17 +42,20 @@ public class OrderDialogFragment extends DialogFragment {
         final Activity activity = getActivity();
         final Bundle args = getArguments();
         final Order order = ((OrderParcel)args.getParcelable("order")).getOrder();
+        final ArrayList<Product> products = new ArrayList<>();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         productAdapter = new ProductAdapter(activity, productList);
-        productListener = new ListChildEventListener<Product>(Product.class, productList) {
+        productListener = new ListChildEventListener<Product>(Product.class, products) {
             @Override
             public void onUpdate() {
-                for (Iterator<Product> i = productList.listIterator(); i.hasNext(); ) {
-                    Product p = i.next();
-                    if (!order.getProducts().contains(p.getKey()))
-                        i.remove();
-                }
+                productList.clear();
+                for (String key : order.getProducts())
+                    for (Product p : products)
+                        if (p.getKey().equals(key)) {
+                            productList.add(p);
+                            break;
+                        }
                 productAdapter.notifyDataSetChanged();
             }
 
@@ -64,8 +66,8 @@ public class OrderDialogFragment extends DialogFragment {
             }
         };
         db = FirebaseDatabase.getInstance();
-        products = db.getReference("/products");
-        products.addChildEventListener(productListener);
+        productsRef = db.getReference("/products");
+        productsRef.addChildEventListener(productListener);
 
         return builder.setTitle(R.string.order_details_dialog)
                 .setView(R.layout.list_view)
@@ -79,7 +81,7 @@ public class OrderDialogFragment extends DialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        products.addChildEventListener(productListener);
+        productsRef.addChildEventListener(productListener);
     }
 
 }
