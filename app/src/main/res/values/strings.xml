@@ -3,7 +3,12 @@
     <string name="password_mismatch">Senhas digitadas são diferentes!</string>
     <string name="auth_failed">Autenticação falhou!</string>
     <string name="account_creation_failed">Criação de conta falhou!</string>
+    <string name="creating_account">Criando conta</string>
+    <string name="account_created">Conta criada</string>
     <string name="password_too_short">Senha deve possuir pelo menos 6 caracteres</string>
+    <string name="logging_in">Realizando login</string>
+    <string name="logged_in">Logado</string>
+    <string name="logged_out">Deslogado</string>
     <string name="login_success">Usuário logado com sucesso</string>
     <string name="logout">Sair</string>
     <string name="configure_cc">Configurar cartão</string>
@@ -11,4 +16,22 @@
     <string name="product_add_success">Produto adicionado com sucesso</string>
     <string name="product_add_failed">Falha ao adicionar produto</string>
     <string name="buy_order">Comprar carrinho</string>
+    <string name="search_field">Busca</string>
+    <string name="add_product">Adicionar produto</string>
+    <string name="product">Produto</string>
+    <string name="description">Descrição</string>
+    <string name="store_id">ID da loja</string>
+    <string name="price">Preço</string>
+    <string name="add">Adicionar</string>
+    <string name="login">Login</string>
+    <string name="email">E-mail</string>
+    <string name="password">Senha</string>
+    <string name="login_button">Entrar</string>
+    <string name="create_account">Criar conta</string>
+    <string name="repeat_password">Repetir senha</string>
+    <string name="add_order">Realizar pedido</string>
+    <string name="order_history">Histórico de pedidos</string>
+    <string name="admin_tasks">Tarefas administrativas</string>
+    <string name="remove_products">Remover produtos</string>
+    <string name="pending_orders">Pedidos pendentes</string>
 </resources>

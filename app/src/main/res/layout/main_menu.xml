@@ -4,13 +4,13 @@
     android:layout_height="match_parent">
 
     <Button
-        android:text="Realizar pedido"
+        android:text="@string/add_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/new_order" />
 
     <Button
-        android:text="Histórico de pedidos "
+        android:text="@string/order_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/order_history" />
@@ -22,19 +22,19 @@
         android:id="@+id/admin_layout">
 
         <TextView
-            android:text="Tarefas administrativas:"
+            android:text="@string/admin_tasks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/text_view_admin" />
 
         <Button
-            android:text="Adicionar produto"
+            android:text="@string/add_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/add_product" />
 
         <Button
-            android:text="Remover produtos"
+            android:text="@string/remove_products"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/remove_product" />
@@ -42,7 +42,7 @@
     </LinearLayout>
 
     <TextView
-        android:text="Pedidos pendentes:"
+        android:text="@string/pending_orders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/pending_orders_header" />

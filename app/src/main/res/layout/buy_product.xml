@@ -9,7 +9,7 @@
         android:inputType="text"
         android:ems="10"
         android:id="@+id/buy_product_search"
-        android:hint="Busca" />
+        android:hint="@string/search_field" />
 
     <ListView
         android:layout_width="match_parent"

@@ -13,19 +13,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login" />
+        android:text="@string/login" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/email"
         android:layout_marginTop="21dp"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:hint="Email"
+        android:hint="@string/email"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -40,10 +40,10 @@
         android:id="@+id/password"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="Senha" />
+        android:hint="@string/password" />
 
     <Button
-        android:text="Entrar!"
+        android:text="@string/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/password"
@@ -54,7 +54,7 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:text="Criar conta"
+        android:text="@string/create_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -75,5 +75,5 @@
         android:id="@+id/repeatPassword"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="Repetir senha" />
+        android:hint="@string/repeat_password" />
 </RelativeLayout>

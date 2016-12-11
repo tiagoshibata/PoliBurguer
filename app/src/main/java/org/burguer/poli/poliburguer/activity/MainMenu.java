@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserInfo;
@@ -81,6 +82,7 @@ public class MainMenu extends AppCompatActivity {
             case R.id.action_logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(MainMenu.this, Login.class));
+                Toast.makeText(MainMenu.this, R.string.logged_out, Toast.LENGTH_SHORT).show();
                 return true;
 
             default:

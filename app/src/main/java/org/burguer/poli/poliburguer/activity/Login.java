@@ -59,6 +59,8 @@ public class Login extends AppCompatActivity {
             if (!validatePassword(pass))
                 return;
 
+            Toast.makeText(Login.this, R.string.logging_in, Toast.LENGTH_SHORT).show();
+
             mAuth.signInWithEmailAndPassword(mEmail.getText().toString(),
                     pass)
                     .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
@@ -68,6 +70,8 @@ public class Login extends AppCompatActivity {
                                 Log.w(TAG, "signInWithEmail:failed", task.getException());
                                 Toast.makeText(Login.this, R.string.auth_failed,
                                         Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(Login.this, R.string.logged_in, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -87,6 +91,8 @@ public class Login extends AppCompatActivity {
             if (!validatePassword(pass))
                 return;
 
+            Toast.makeText(Login.this, R.string.creating_account, Toast.LENGTH_SHORT).show();
+
             mAuth.createUserWithEmailAndPassword(mEmail.getText().toString(), pass)
                     .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -95,6 +101,8 @@ public class Login extends AppCompatActivity {
                                 Log.w(TAG, "createUserWithEmail:failed");
                                 Toast.makeText(Login.this, R.string.account_creation_failed,
                                         Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(Login.this, R.string.account_created, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

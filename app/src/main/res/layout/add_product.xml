@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="Adicionar produto"
+        android:text="@string/add_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView2" />
@@ -15,7 +15,7 @@
         android:inputType="text"
         android:ems="10"
         android:id="@+id/new_product_name"
-        android:hint="Produto" />
+        android:hint="@string/product" />
 
     <EditText
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
         android:inputType="text"
         android:ems="10"
         android:id="@+id/new_product_description"
-        android:hint="Descrição" />
+        android:hint="@string/description" />
 
     <EditText
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/new_product_store"
-        android:hint="ID da loja" />
+        android:hint="@string/store_id" />
 
     <EditText
         android:layout_width="match_parent"
@@ -39,10 +39,10 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/new_product_price"
-        android:hint="Preço" />
+        android:hint="@string/price" />
 
     <Button
-        android:text="Adicionar"
+        android:text="@string/add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/new_product_add" />
