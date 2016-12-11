@@ -3,9 +3,12 @@ package org.burguer.poli.poliburguer.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,20 +24,25 @@ import java.util.List;
 
 import org.burguer.poli.poliburguer.firebase.ListChildEventListener;
 import org.burguer.poli.poliburguer.models.Product;
+import org.burguer.poli.poliburguer.parcel.ProductParcel;
 
 public class RemoveProduct extends AppCompatActivity {
 
     private static final String TAG = "PoliBurger";
 
     List<Product> productList = new ArrayList<>();
-    private FirebaseDatabase db;
+    ArrayList<ProductParcel> order = new ArrayList<>();
     private DatabaseReference products;
+    private ProductAdapter adapter;
     private ListView productListView;
+    private EditText buySearch;
 
     private ChildEventListener productListener = new ListChildEventListener<Product>(Product.class, productList) {
         @Override
         public void onUpdate() {
-            productListView.setAdapter(new ProductAdapter(RemoveProduct.this, productList));
+            adapter = new ProductAdapter(RemoveProduct.this, productList);
+            adapter.getFilter().filter(buySearch.getText().toString());
+            productListView.setAdapter(adapter);
         }
 
         @Override
@@ -59,7 +67,21 @@ public class RemoveProduct extends AppCompatActivity {
         productListView = (ListView)findViewById(R.id.product_list);
         productListView.setOnItemClickListener(mProductListClickListener);
 
-        db = FirebaseDatabase.getInstance();
+        buySearch = (EditText)findViewById(R.id.buy_product_search);
+        buySearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                adapter.getFilter().filter(s);
+            }
+        });
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
         products = db.getReference("products");
         products.addChildEventListener(productListener);
     }

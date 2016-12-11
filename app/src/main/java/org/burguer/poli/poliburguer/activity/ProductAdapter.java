@@ -1,7 +1,7 @@
 package org.burguer.poli.poliburguer.activity;
 
 import android.content.Context;
-import android.util.Log;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +19,26 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     private List<Product> products;
 
     private Filter filter = new Filter() {
+        private String lastFilter = null;
+
         @Override
         protected FilterResults performFiltering(CharSequence s) {
             FilterResults results = new FilterResults();
             ArrayList<Product> filtered = new ArrayList<>();
 
-            String search = s.toString().toLowerCase();
-            Log.i("PoliBurguer", "Filter " + search);
-            if (s == null || s.length() == 0) {
+            String search;
+            if (s == null) {
+                if (lastFilter != null)
+                    search = lastFilter;
+                else
+                    search = "";
+            } else {
+                search = s.toString().toLowerCase();
+            }
+            lastFilter = search;
+            if (search.length() == 0) {
                 results.values = products;
-                results.count = getCount();
+                results.count = products.size();
             } else {
                 for (Product p : products)
                     if (p.getDescription().toLowerCase().contains(search) || p.getName().toLowerCase().contains(search))
@@ -36,7 +46,6 @@ public class ProductAdapter extends ArrayAdapter<Product> {
                 results.values = filtered;
                 results.count = filtered.size();
             }
-            Log.i("PoliBurguer", "Results " + results.count);
             return results;
         }
 
@@ -46,22 +55,22 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             clear();
             if (result.count > 0) {
                 addAll((List<Product>)result.values);
-                notifyDataSetChanged();
+                ProductAdapter.super.notifyDataSetChanged();
             } else {
                 notifyDataSetInvalidated();
             }
-            setNotifyOnChange(true);
         }
     };
 
     public ProductAdapter(Context context, List<Product> products) {
         super(context, android.R.layout.simple_list_item_2);
-        addAll(products);
         this.products = products;
+        notifyDataSetChanged();
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    @NonNull
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         Product product = getItem(position);
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_2, parent, false);
@@ -73,8 +82,14 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     }
 
     @Override
+    @NonNull
     public Filter getFilter() {
         return filter;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        getFilter().filter(null);
     }
 
 }

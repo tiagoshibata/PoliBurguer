@@ -29,6 +29,14 @@ public class Product implements FirebaseModel {
         return description;
     }
 
+    public int getStore() {
+        return store;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
     @Exclude
     @Override
     public String getKey() {

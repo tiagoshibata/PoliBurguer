@@ -9,8 +9,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.AddProduct" />
-        <activity android:name=".activity.RemoveProduct" />
         <activity android:name=".activity.BuyProduct" />
+        <activity android:name=".activity.Checkout" />
         <activity android:name=".activity.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainMenu" />
+        <activity android:name=".activity.RemoveProduct" />
     </application>
 
 </manifest>

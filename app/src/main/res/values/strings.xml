@@ -11,4 +11,7 @@
     <string name="product_add_success">Produto adicionado com sucesso</string>
     <string name="product_add_failed">Falha ao adicionar produto</string>
     <string name="buy_order">Comprar carrinho</string>
+    <string name="confirm_checkout">Confirmar compra</string>
+    <string name="checkout_failed">Comunicação com BD falhou!</string>
+    <string name="checkout_empty">Carrinho está vazio!</string>
 </resources>
