@@ -50,7 +50,7 @@ public class Checkout extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.checkout);
+        setContentView(R.layout.list_view);
 
         ArrayList<ProductParcel> parcel = getIntent().getParcelableArrayListExtra("order");
         order = new ArrayList<>();
@@ -58,7 +58,7 @@ public class Checkout extends AppCompatActivity {
             order.add(p.getProduct());
         }
 
-        ListView orderListView = (ListView)findViewById(R.id.checkout_list);
+        ListView orderListView = (ListView)findViewById(R.id.list_view_item_list);
         orderListView.setOnItemLongClickListener(mOrderListClickListener);
         adapter = new ProductAdapter(this, order);
         orderListView.setAdapter(adapter);

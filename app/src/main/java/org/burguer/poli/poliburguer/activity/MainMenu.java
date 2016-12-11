@@ -75,8 +75,6 @@ public class MainMenu extends AppCompatActivity {
             args.putParcelable("order", new OrderParcel(order));
             fragment.setArguments(args);
             fragment.show(getSupportFragmentManager(), TAG + "OrderDetailsDialog");
-
-
         }
     };
 
