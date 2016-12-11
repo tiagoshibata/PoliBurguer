@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.burguer.poli.poliburguer.R;
 import org.burguer.poli.poliburguer.firebase.ListChildEventListener;
+import org.burguer.poli.poliburguer.firebase.NotificationsService;
 import org.burguer.poli.poliburguer.models.Order;
 import org.burguer.poli.poliburguer.models.Product;
 import org.burguer.poli.poliburguer.parcel.OrderParcel;
@@ -101,6 +102,8 @@ public class OrderDetailsDialog extends DialogFragment {
                             dismiss();
                         }
                     });
+                    String destination = order.getFcm();
+                    NotificationsService.sendNotification(destination);
                 }
             });
         return builder.create();

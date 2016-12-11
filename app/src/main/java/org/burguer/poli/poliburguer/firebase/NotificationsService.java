@@ -14,6 +14,17 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.burguer.poli.poliburguer.R;
 import org.burguer.poli.poliburguer.activity.Login;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 public class NotificationsService extends FirebaseMessagingService {
 
@@ -57,28 +68,68 @@ public class NotificationsService extends FirebaseMessagingService {
     // [END receive_message]
 
     /**
-     * Create and show a simple notification containing the received FCM message.
+     * Send a FCM message.
      *
-     * @param messageBody FCM message body received.
+     * @param destinationApp FCM destination.
      */
-    private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, Login.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+    public static void sendNotification(String destinationApp) {
+        HttpURLConnection connection = null;
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_stat_ic_notification)
-                .setContentTitle("FCM Message")
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+        try {
+            //Create connection
+            URL url = new URL("https://fcm.googleapis.com/fcm/send");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Authorization: key=AIzaSyBXNFqY2ATV-4cYKuK1yVW0vO5CrBXwFng", "");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setUseCaches(false);
+            connection.setDoOutput(true);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            JSONObject notification =new JSONObject();
+            JSONObject parent =new JSONObject();
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+            notification.put("title", "Poli Burguer");
+            notification.put("body", "Seu Pedido está pronto!");
+            parent.put("notification", notification);
+            parent.put("to", destinationApp);
+
+
+            OutputStreamWriter os = new OutputStreamWriter(connection.getOutputStream());
+            os.write(URLEncoder.encode(parent.toString(),"UTF-8"));
+            os.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
     }
+//    /**
+//     * Create and show a simple notification containing the received FCM message.
+//     *
+//     * @param messageBody FCM message body received.
+//     */
+//    private void sendNotification(String messageBody) {
+//        Intent intent = new Intent(this, Login.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+//                PendingIntent.FLAG_ONE_SHOT);
+//
+//        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+//                .setSmallIcon(R.drawable.ic_stat_ic_notification)
+//                .setContentTitle("FCM Message")
+//                .setContentText(messageBody)
+//                .setAutoCancel(true)
+//                .setSound(defaultSoundUri)
+//                .setContentIntent(pendingIntent);
+//
+//        NotificationManager notificationManager =
+//                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+//    }
 }

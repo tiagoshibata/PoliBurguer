@@ -17,11 +17,11 @@ public class Order implements FirebaseModel {
 
     public Order() {}
 
-    public Order(int price, ArrayList<String> products, long timestamp) {
+    public Order(int price, ArrayList<String> products, long timestamp, String fcm) {
         this.price = price;
         this.products = products;
         this.timestamp = timestamp;
-        this.fcm = FirebaseInstanceId.getInstance().getToken();
+        this.fcm = fcm;
     }
 
     public ArrayList<String> getProducts() {

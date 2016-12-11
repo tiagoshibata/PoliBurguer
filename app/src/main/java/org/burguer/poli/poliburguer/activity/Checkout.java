@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.burguer.poli.poliburguer.R;
 import org.burguer.poli.poliburguer.models.Money;
@@ -91,7 +92,8 @@ public class Checkout extends AppCompatActivity {
                     for (Product p : order) {
                         productId.add(p.getKey());
                     }
-                    ref.setValue(new Order(price, productId, System.currentTimeMillis()), new DatabaseReference.CompletionListener() {
+                    String fcm = FirebaseInstanceId.getInstance().getToken();
+                    ref.setValue(new Order(price, productId, System.currentTimeMillis(), fcm), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError error, DatabaseReference ref) {
                             if (error != null) {
