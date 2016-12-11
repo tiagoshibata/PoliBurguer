@@ -50,7 +50,7 @@ public class Product implements FirebaseModel {
 
     @Exclude
     public String getFormattedPrice() {
-        return "R$" + String.valueOf(price / 100) + "," + String.valueOf(price % 100);
+        return Money.format(this.price);
     }
 
 }

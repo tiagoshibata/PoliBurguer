@@ -37,4 +37,7 @@
     <string name="confirm_checkout">Confirmar compra</string>
     <string name="checkout_failed">Comunicação com BD falhou!</string>
     <string name="checkout_empty">Carrinho está vazio!</string>
+    <string name="cart">Carrinho</string>
+    <string name="item">item</string>
+    <string name="items">itens</string>
 </resources>

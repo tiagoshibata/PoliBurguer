@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.burguer.poli.poliburguer.R;
+import org.burguer.poli.poliburguer.models.Money;
 import org.burguer.poli.poliburguer.models.Order;
 import org.burguer.poli.poliburguer.models.Product;
 import org.burguer.poli.poliburguer.parcel.ProductParcel;
@@ -61,7 +62,7 @@ public class Checkout extends AppCompatActivity {
         ListView orderListView = (ListView)findViewById(R.id.checkout_list);
         orderListView.setOnItemLongClickListener(mOrderListClickListener);
         adapter = new ProductAdapter(this, order);
-        orderListView .setAdapter(adapter);
+        orderListView.setAdapter(adapter);
         updatePrice();
 
         db = FirebaseDatabase.getInstance();
@@ -116,7 +117,7 @@ public class Checkout extends AppCompatActivity {
         for (Product p : order) {
             price += p.getPrice();
         }
-        setTitle("R$" + String.valueOf(price / 100) + "," + String.valueOf(price % 100));
+        setTitle(getResources().getString(R.string.confirm_checkout) + " - " + Money.format(price));
     }
 
     @Override
