@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import org.burguer.poli.poliburguer.R;
 import org.burguer.poli.poliburguer.firebase.ListChildEventListener;
+import org.burguer.poli.poliburguer.firebase.NetworkOperation;
 import org.burguer.poli.poliburguer.firebase.NotificationsService;
 
 import org.burguer.poli.poliburguer.models.Order;
@@ -54,7 +55,7 @@ public class OrderDetailsDialog extends OrderDialogFragment {
                         }
                     });
                     String destination = order.getFcm();
-                    NotificationsService.sendNotification(destination);
+                    new NetworkOperation().execute(destination);
                 }
             });
         return builder.create();
