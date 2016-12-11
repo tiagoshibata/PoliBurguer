@@ -102,6 +102,7 @@ public class Checkout extends AppCompatActivity {
                                 return;
                             }
                             startActivity(new Intent(Checkout.this, MainMenu.class));
+                            Toast.makeText(Checkout.this, R.string.checkout_success, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

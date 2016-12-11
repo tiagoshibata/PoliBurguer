@@ -62,7 +62,7 @@ public class BuyProduct extends AppCompatActivity {
 
     private void updateTitle() {
         String cart = getResources().getString(R.string.cart);
-        String items = getResources().getString(order.size() == 1 ? R.string.item : R.string.items);
+        String items = getResources().getString(order.size() == 1 ? R.string.lower_item : R.string.lower_items);
         setTitle(cart + " - " + order.size() + " " + items);
     }
 

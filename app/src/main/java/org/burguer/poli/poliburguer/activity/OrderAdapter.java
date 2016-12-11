@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.burguer.poli.poliburguer.R;
 import org.burguer.poli.poliburguer.models.Order;
 
 import java.text.SimpleDateFormat;
@@ -28,9 +29,10 @@ public class OrderAdapter extends ArrayAdapter<Order> {
             convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_2, parent, false);
         TextView text1 = (TextView) convertView.findViewById(android.R.id.text1);
         TextView text2 = (TextView) convertView.findViewById(android.R.id.text2);
-        text1.setText(order.getProducts().size() + " produtos - " + order.getFormattedPrice());
+        String products = getContext().getResources().getString(order.getProducts().size() == 1 ? R.string.lower_product : R.string.lower_products);
+        text1.setText(order.getProducts().size() + " " + products  + " - " + order.getFormattedPrice());
         Date date = new Date(order.getTimestamp());
-        text2.setText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss:SSS").format(date));
+        text2.setText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date));
         return convertView;
     }
 

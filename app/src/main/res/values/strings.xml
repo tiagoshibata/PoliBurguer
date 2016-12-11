@@ -21,7 +21,7 @@
     <string name="product">Produto</string>
     <string name="description">Descrição</string>
     <string name="store_id">ID da loja</string>
-    <string name="price">Preço</string>
+    <string name="price_cents">Preço em centavos</string>
     <string name="add">Adicionar</string>
     <string name="login">Login</string>
     <string name="email">E-mail</string>
@@ -37,7 +37,11 @@
     <string name="confirm_checkout">Confirmar compra</string>
     <string name="checkout_failed">Comunicação com BD falhou!</string>
     <string name="checkout_empty">Carrinho está vazio!</string>
+    <string name="checkout_success">Compra efetuada</string>
     <string name="cart">Carrinho</string>
-    <string name="item">item</string>
-    <string name="items">itens</string>
+    <string name="lower_item">item</string>
+    <string name="lower_items">itens</string>
+    <string name="lower_product">produto</string>
+    <string name="lower_products">produtos</string>
+
 </resources>

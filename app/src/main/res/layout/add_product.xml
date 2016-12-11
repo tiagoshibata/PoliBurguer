@@ -39,7 +39,7 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/new_product_price"
-        android:hint="@string/price" />
+        android:hint="@string/price_cents" />
 
     <Button
         android:text="@string/add"
