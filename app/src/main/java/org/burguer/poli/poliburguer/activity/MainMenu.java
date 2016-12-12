@@ -158,7 +158,8 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        orders.removeEventListener(orderListener);
+        if (orders != null)
+            orders.removeEventListener(orderListener);
     }
 
     @Override
