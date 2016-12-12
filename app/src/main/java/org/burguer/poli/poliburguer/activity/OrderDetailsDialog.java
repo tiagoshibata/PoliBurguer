@@ -36,7 +36,7 @@ public class OrderDetailsDialog extends OrderDialogFragment {
         if (Privileges.isAdmin())
             builder.setPositiveButton(R.string.order_ready, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String uid = order.getUid();
                     Map<String, Object> update = new HashMap<>();
                     DatabaseReference dbUser = db.getReference("users/" + uid);
 

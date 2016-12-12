@@ -93,7 +93,7 @@ public class Checkout extends AppCompatActivity {
                         productId.add(p.getKey());
                     }
                     String fcm = FirebaseInstanceId.getInstance().getToken();
-                    ref.setValue(new Order(price, productId, System.currentTimeMillis(), fcm), new DatabaseReference.CompletionListener() {
+                    ref.setValue(new Order(price, productId, System.currentTimeMillis(), fcm, FirebaseAuth.getInstance().getCurrentUser().getUid()), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError error, DatabaseReference ref) {
                             if (error != null) {

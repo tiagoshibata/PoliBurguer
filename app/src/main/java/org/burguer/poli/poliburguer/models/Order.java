@@ -14,14 +14,16 @@ public class Order implements FirebaseModel {
     public long timestamp;
     private String key;
     public String fcm;
+    public String uid;
 
     public Order() {}
 
-    public Order(int price, ArrayList<String> products, long timestamp, String fcm) {
+    public Order(int price, ArrayList<String> products, long timestamp, String fcm, String uid) {
         this.price = price;
         this.products = products;
         this.timestamp = timestamp;
         this.fcm = fcm;
+        this.uid = uid;
     }
 
     public ArrayList<String> getProducts() {
@@ -44,7 +46,13 @@ public class Order implements FirebaseModel {
         return timestamp;
     }
 
-    public String getFcm() { return fcm; }
+    public String getFcm() {
+        return fcm;
+    }
+
+    public String getUid() {
+        return uid;
+    }
 
     @Exclude
     public String getFormattedPrice() {

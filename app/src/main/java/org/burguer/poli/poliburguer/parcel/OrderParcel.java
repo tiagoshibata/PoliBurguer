@@ -18,7 +18,7 @@ public class OrderParcel implements Parcelable {
     }
 
     protected OrderParcel(Parcel in) {
-        order = new Order(in.readInt(), in.readArrayList(String.class.getClassLoader()), in.readLong(), in.readString());
+        order = new Order(in.readInt(), in.readArrayList(String.class.getClassLoader()), in.readLong(), in.readString(), in.readString());
         order.setKey(in.readString());
     }
 
@@ -28,6 +28,7 @@ public class OrderParcel implements Parcelable {
         out.writeList(order.getProducts());
         out.writeLong(order.getTimestamp());
         out.writeString(order.getFcm());
+        out.writeString(order.getUid());
         out.writeString(order.getKey());
     }
 
