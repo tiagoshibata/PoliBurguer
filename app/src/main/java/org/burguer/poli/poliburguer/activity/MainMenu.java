@@ -31,11 +31,13 @@ import org.burguer.poli.poliburguer.models.Order;
 import org.burguer.poli.poliburguer.parcel.OrderParcel;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class MainMenu extends AppCompatActivity {
 
     private static final String TAG = "PoliBurger";
     private ArrayList<Order> orderList = new ArrayList<>();
+    private OrderComparator orderComparator = new OrderComparator();
     private OrderAdapter adapter;
     private DatabaseReference orders;
     private FirebaseDatabase db;
@@ -44,6 +46,7 @@ public class MainMenu extends AppCompatActivity {
         @Override
         public void onUpdate() {
             adapter.notifyDataSetChanged();
+            adapter.sort(orderComparator);
         }
 
         @Override
