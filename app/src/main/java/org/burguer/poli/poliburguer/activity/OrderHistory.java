@@ -39,7 +39,7 @@ public class OrderHistory extends AppCompatActivity {
 
         @Override
         public void onCancelled(DatabaseError error) {
-            Toast.makeText(OrderHistory.this, R.string.db_read_failed, Toast.LENGTH_LONG).show();
+            //Toast.makeText(OrderHistory.this, R.string.db_read_failed, Toast.LENGTH_LONG).show();
             Log.w(TAG, "Failed to read database:", error.toException());
         }
     };
