@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -47,7 +48,7 @@ public class MainMenu extends AppCompatActivity {
 
         @Override
         public void onCancelled(DatabaseError error) {
-            Toast.makeText(MainMenu.this, R.string.db_read_failed, Toast.LENGTH_LONG).show();
+            //Toast.makeText(MainMenu.this, R.string.db_read_failed, Toast.LENGTH_SHORT).show();
             Log.w(TAG, "Failed to read database:", error.toException());
         }
     };
@@ -114,9 +115,41 @@ public class MainMenu extends AppCompatActivity {
         }
 
         db = FirebaseDatabase.getInstance();
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        orders = db.getReference("/users/" + uid + "/orders");
-        orders.addChildEventListener(orderListener);
+        if (Privileges.isAdmin()) {
+            db.getReference("/users").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    for (DataSnapshot o : dataSnapshot.getChildren()) {
+                        o.getRef().addChildEventListener(orderListener);
+                    }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    // TODO
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    // TODO
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    // TODO
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    //Toast.makeText(MainMenu.this, R.string.db_read_failed, Toast.LENGTH_SHORT).show();
+                    Log.w(TAG, "Failed to read database:", error.toException());
+                }
+            });
+        } else {
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            orders = db.getReference("/users/" + uid + "/orders");
+            orders.addChildEventListener(orderListener);
+        }
     }
 
     @Override
