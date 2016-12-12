@@ -123,7 +123,9 @@ public class MainMenu extends AppCompatActivity {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     for (DataSnapshot o : dataSnapshot.getChildren()) {
-                        o.getRef().addChildEventListener(orderListener);
+                        if (o.getKey().equals("orders")) {
+                            o.getRef().addChildEventListener(orderListener);
+                        }
                     }
                 }
 
