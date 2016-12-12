@@ -1,7 +1,9 @@
 package org.burguer.poli.poliburguer.activity;
 
+
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,9 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText mEmail;
     private EditText mPassword;
+
+    private AlertDialog.Builder loginDialogBuilder;
+    private AlertDialog loginDialog;
 
     private boolean startIfLoginSuccessful(FirebaseAuth auth) {
         boolean success = auth.getCurrentUser() != null;
@@ -59,7 +64,11 @@ public class Login extends AppCompatActivity {
             if (!validatePassword(pass))
                 return;
 
-            Toast.makeText(Login.this, R.string.logging_in, Toast.LENGTH_SHORT).show();
+            loginDialogBuilder = new AlertDialog.Builder(Login.this);
+            loginDialogBuilder.setMessage(R.string.logging_in);
+            loginDialog = loginDialogBuilder.create();
+            loginDialog.show();
+            //Toast.makeText(Login.this, R.string.logging_in, Toast.LENGTH_SHORT).show();
 
             mAuth.signInWithEmailAndPassword(mEmail.getText().toString(),
                     pass)
@@ -91,7 +100,11 @@ public class Login extends AppCompatActivity {
             if (!validatePassword(pass))
                 return;
 
-            Toast.makeText(Login.this, R.string.creating_account, Toast.LENGTH_SHORT).show();
+            loginDialogBuilder = new AlertDialog.Builder(Login.this);
+            loginDialogBuilder.setMessage(R.string.creating_account);
+            loginDialog = loginDialogBuilder.create();
+            loginDialog.show();
+            //Toast.makeText(Login.this, R.string.creating_account, Toast.LENGTH_SHORT).show();
 
             mAuth.createUserWithEmailAndPassword(mEmail.getText().toString(), pass)
                     .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
@@ -140,5 +153,4 @@ public class Login extends AppCompatActivity {
         super.onStop();
         mAuth.removeAuthStateListener(mAuthListener);
     }
-
 }
